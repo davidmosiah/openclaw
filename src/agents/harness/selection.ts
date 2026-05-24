@@ -175,7 +175,13 @@ function selectAgentHarnessDecision(params: {
         candidates: listHarnessCandidates(pluginHarnesses),
       });
     }
-    if (isCliRuntimeAliasForProvider({ runtime, provider: params.provider })) {
+    if (
+      isCliRuntimeAliasForProvider({
+        runtime,
+        provider: params.provider,
+        cfg: params.config,
+      })
+    ) {
       return buildSelectionDecision({
         harness: openClawHarness,
         policy: {
@@ -467,7 +473,7 @@ export async function maybeCompactAgentHarnessSession(
     config: params.config,
     sessionKey: params.sessionKey,
   }).runtime;
-  if (isCliRuntimeAliasForProvider({ runtime, provider: params.provider })) {
+  if (isCliRuntimeAliasForProvider({ runtime, provider: params.provider, cfg: params.config })) {
     return undefined;
   }
   const harness = selectAgentHarness({
