@@ -9,7 +9,6 @@ vi.mock("../../plugins/provider-runtime.js", async () => {
   );
   return {
     ...actual,
-    applyProviderResolvedModelCompatWithPlugins: () => undefined,
     applyProviderResolvedTransportWithPlugin: () => undefined,
     buildProviderUnknownModelHintWithPlugin: () => undefined,
     normalizeProviderTransportWithPlugin: () => undefined,
@@ -44,6 +43,7 @@ vi.mock("../agent-model-discovery.js", () => ({
 }));
 
 import type { OpenClawConfig } from "../../config/config.js";
+import { resetModelDiscoveryCacheForTest } from "./model-discovery-cache.js";
 import {
   expectResolvedForwardCompatFallbackResult,
   expectUnknownModelErrorResult,
@@ -57,12 +57,13 @@ import {
 } from "./model.test-harness.js";
 
 beforeEach(() => {
+  resetModelDiscoveryCacheForTest();
   resetMockDiscoverModels(discoverModels);
 });
 
 function createRuntimeHooks() {
   return createProviderRuntimeTestMock({
-    handledDynamicProviders: ["anthropic", "google-antigravity", "zai", "openai-codex"],
+    handledDynamicProviders: ["google-antigravity", "zai", "openai-codex"],
   });
 }
 
